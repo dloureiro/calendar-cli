@@ -24,5 +24,5 @@ class DeleteOperation(Operation):
 
     def run(self):
         service = GoogleCalendarService(self.credential_path)
-        service.delete_event(self.calendar_id, self.event_id, self.credential_path)
+        service.delete_event(self.calendar_id, self.event_id)
         print_safe(MSG_EVENT_DELETED % {'event': self.event_id})
