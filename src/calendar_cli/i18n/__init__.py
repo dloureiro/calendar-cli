@@ -14,7 +14,7 @@ __locale = __get_locale()
 
 if __locale.startswith('ja_'):
     from .messages_ja import *
-elif __local.startswith('fr_'):
+elif __locale.startswith('fr_'):
 	from .messages_fr import *
 else:
     from .messages_en import *
