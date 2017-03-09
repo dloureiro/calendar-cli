@@ -49,3 +49,10 @@ class GoogleCalendarService(object):
         """
         ret = self._service.events().insert(calendarId=calendar_id, body=event.to_dict()).execute()
         return ret['id']
+
+    def delete_event(self,calendar_id, event_id):
+        """
+        :param calendar_id: string:
+        :param event_id: string
+        """
+        ret = self._service.events().delete(calendarId=calendar_id, eventId=event_id).execute()

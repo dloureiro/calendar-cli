@@ -8,7 +8,7 @@ from mog_commons.io import print_safe
 
 
 class SummaryOperation(Operation):
-    """Print summary of Google Calender"""
+    """Print summary of Google Calendar"""
 
     def __init__(self, calendar_id, start_time, duration, credential_path, format, separator):
         """

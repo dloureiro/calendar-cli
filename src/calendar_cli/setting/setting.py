@@ -4,7 +4,7 @@ import re
 from datetime import datetime, timedelta
 from tzlocal import get_localzone
 from calendar_cli.model import EventTime, Event
-from calendar_cli.operation import HelpOperation, SummaryOperation, CreateOperation, SetupOperation
+from calendar_cli.operation import HelpOperation, SummaryOperation, CreateOperation, SetupOperation, DeleteOperation
 from calendar_cli.setting import arg_parser
 from mog_commons.case_class import CaseClass
 from mog_commons.functional import oget
@@ -143,6 +143,10 @@ class Setting(CaseClass):
                 start, end = self._parse_time_range(option.date, option.start_time, option.end_time, self.now)
                 ev = Event(start, end, summary, location=option.location)
                 operation = CreateOperation(option.calendar, ev, option.credential)
+            elif args[0] == 'delete' and len(args) >= 2:
+                # delete
+                eventID = args[1]
+                operation = DeleteOperation(option.calendar, eventID, option.credential)
             else:
                 # help
                 operation = HelpOperation()

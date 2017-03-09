@@ -49,6 +49,7 @@ class EventTime(CaseClass):
 
 class Event(CaseClass):
     def __init__(self,
+                 event_id,
                  start_time,
                  end_time,
                  summary,
@@ -69,6 +70,7 @@ class Event(CaseClass):
         assert start_time <= end_time
 
         CaseClass.__init__(self,
+                           ('event_id', event_id),
                            ('start_time', start_time),
                            ('end_time', end_time),
                            ('summary', summary),
@@ -94,6 +96,7 @@ class Event(CaseClass):
     def to_format(self, format_):
         return (
             format_
+            .replace('%I', self.event_id)
             .replace('%D', self.start_time.to_long_summary())
             .replace('%T', self.str_time_range())
             .replace('%S', self.summary)
@@ -102,7 +105,7 @@ class Event(CaseClass):
         )
 
     def to_dict(self):
-        r = {'summary': self.summary, 'start': self.start_time.to_dict(), 'end': self.end_time.to_dict()}
+        r = {'id': self.event_id, 'summary': self.summary, 'start': self.start_time.to_dict(), 'end': self.end_time.to_dict()}
 
         d = {}
         omap(lambda x: d.update({'displayName': x}), self.creator_name)
@@ -115,7 +118,8 @@ class Event(CaseClass):
 
     @staticmethod
     def parse_dict(d, default_timezone):
-        return Event(EventTime.parse_dict(d['start'], default_timezone),
+        return Event(d['id'],
+                     EventTime.parse_dict(d['start'], default_timezone),
                      EventTime.parse_dict(d['end'], default_timezone),
                      d['summary'],
                      omap(lambda x: x.get('displayName'), (d.get('creator'))),

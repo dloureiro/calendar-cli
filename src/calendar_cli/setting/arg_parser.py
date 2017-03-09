@@ -15,6 +15,8 @@ USAGE = """
   %prog create [--date <YYYYMMDD> --start <HHMM> --end <HHMM> --location <location>
                 --credential <credential_path>] <summary>
                         Create an event onto the calendar.
+  %prog delete <event_id>
+                        Delete an event based on it's id
 """
 
 
@@ -74,6 +76,7 @@ def _get_parser():
             '"%S" -> summary,',
             '"%C" -> creator,',
             '"%L" -> location',
+            '"%I" -> event id',
         ])
     )
     p.add_option(
