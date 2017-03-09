@@ -105,7 +105,7 @@ class Event(CaseClass):
         )
 
     def to_dict(self):
-        r = {'iCalUID': self.event_id, 'summary': self.summary, 'start': self.start_time.to_dict(), 'end': self.end_time.to_dict()}
+        r = {'id': self.event_id, 'summary': self.summary, 'start': self.start_time.to_dict(), 'end': self.end_time.to_dict()}
 
         d = {}
         omap(lambda x: d.update({'displayName': x}), self.creator_name)
@@ -118,7 +118,7 @@ class Event(CaseClass):
 
     @staticmethod
     def parse_dict(d, default_timezone):
-        return Event(d['iCalUID'],
+        return Event(d['id'],
                      EventTime.parse_dict(d['start'], default_timezone),
                      EventTime.parse_dict(d['end'], default_timezone),
                      d['summary'],
