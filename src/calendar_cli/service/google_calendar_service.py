@@ -48,7 +48,7 @@ class GoogleCalendarService(object):
         :return: string: event id
         """
         ret = self._service.events().insert(calendarId=calendar_id, body=event.to_dict()).execute()
-        return ret['id']
+        return ret['iCalUID']
 
     def delete_event(self,calendar_id, event_id):
         """
