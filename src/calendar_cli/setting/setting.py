@@ -5,7 +5,7 @@ from datetime import datetime, timedelta
 from tzlocal import get_localzone
 from calendar_cli.model import EventTime, Event
 from calendar_cli.operation import HelpOperation, SummaryOperation, CreateOperation, SetupOperation
-from.calendar_cli.operation.delete_operation import DeleteOperation
+from calendar_cli.operation.delete_operation import DeleteOperation
 from calendar_cli.setting import arg_parser
 from mog_commons.case_class import CaseClass
 from mog_commons.functional import oget
