@@ -73,7 +73,7 @@ def _get_parser():
             'The following symbols will be replaced.',
             '"%D" -> date (start date if different from end date),',
             '"%Ds" -> start date,',
-            '"%De" -> enddate,',
+            '"%De" -> end date,',
             '"%T" -> time,',
             '"%Ts" -> start time,',
             '"%Te" -> end time,',
