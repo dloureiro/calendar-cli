@@ -105,7 +105,7 @@ class Event(CaseClass):
             .replace('%T', self.str_time_range())
             .replace('%S', self.summary)
             .replace('%C', oget(omap(lambda s: ' (%s)' % s, self.str_creator()), ''))
-            .replace('%L', oget(omap(lambda s: ' @%s' % s, self.location), ''))
+            .replace('%L', oget(omap(lambda s: ' @%s' % s, str(self.location)), ''))
         )
 
     def to_dict(self):
