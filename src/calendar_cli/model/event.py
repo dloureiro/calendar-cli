@@ -97,8 +97,12 @@ class Event(CaseClass):
         return (
             format_
             .replace('%I', self.event_id)
+            .replace('%Ds', self.start_time.to_long_summary())
+            .replace('%De', self.end_time.to_long_summary())
             .replace('%D', self.start_time.to_long_summary())
             .replace('%T', self.str_time_range())
+            .replace('%Ts', self.start_time.to_short_summary())
+            .replace('%Te', self.end_time.to_short_summary())
             .replace('%S', self.summary)
             .replace('%C', oget(omap(lambda s: ' (%s)' % s, self.str_creator()), ''))
             .replace('%L', oget(omap(lambda s: ' @%s' % s, self.location), ''))

@@ -71,8 +71,12 @@ def _get_parser():
         help=' '.join([
             'set format to FORMAT in the summary command (default: "%s")' % DEFAULT_FORMAT,
             'The following symbols will be replaced.',
-            '"%D" -> date,',
+            '"%D" -> date (start date if different from end date),',
+            '"%Ds" -> start date,',
+            '"%De" -> enddate,',
             '"%T" -> time,',
+            '"%Ts" -> start time,',
+            '"%Te" -> end time,',
             '"%S" -> summary,',
             '"%C" -> creator,',
             '"%L" -> location',
