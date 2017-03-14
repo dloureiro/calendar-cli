@@ -94,6 +94,15 @@ class Event(CaseClass):
         return self.to_format('%D [%T] %S')
 
     def to_format(self, format_):
+        print("id : " + self.event_id)
+        print("start_time : " + self.start_time.to_long_summary())
+        print("end_time : " + self.end_time.to_long_summary())
+        print("start_date : " + self.start_time.to_short_summary())
+        print("end_date : " + self.end_time.to_short_summary())
+        print("summary : " + self.summary)
+        print("location : ")
+        print(self.location)
+        
         return (
             format_
             .replace('%I', self.event_id)
@@ -105,7 +114,7 @@ class Event(CaseClass):
             .replace('%T', self.str_time_range())
             .replace('%S', self.summary)
             .replace('%C', oget(omap(lambda s: ' (%s)' % s, self.str_creator()), ''))
-            .replace('%L', oget(omap(lambda s: ' @%s' % s, str(self.location)), ''))
+            .replace('%L', oget(omap(lambda s: ' @%s' % s, self.location), ''))
         )
 
     def to_dict(self):
