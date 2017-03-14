@@ -94,14 +94,6 @@ class Event(CaseClass):
         return self.to_format('%D [%T] %S')
 
     def to_format(self, format_):
-        print("id : " + self.event_id)
-        print("start_time : " + self.start_time.to_long_summary())
-        print("end_time : " + self.end_time.to_long_summary())
-        print("start_date : " + (self.start_time.to_short_summary() if self.start_time.has_time else "00:00"))
-        print("end_date : " + (self.end_time.to_short_summary() if self.end_time.has_time else "00:00"))
-        print("summary : " + self.summary)
-        print("location : ")
-        print(self.location)
 
         return (
             format_
