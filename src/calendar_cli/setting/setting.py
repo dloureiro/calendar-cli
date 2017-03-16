@@ -123,7 +123,7 @@ class Setting(CaseClass):
                 input_time = date_time[1]
                 dt = oget(self._parse_date(input_date, self.now), self.now.date())
                 ti = self._parse_time(input_time)
-                start_time = get_localzone().localize(datetime(dt.year, dt.month, dt.day, ti.hour, ti.minutes))
+                start_time = get_localzone().localize(datetime(dt.year, dt.month, dt.day, ti.hour, ti.minute))
 
                 fmt = (option.format or
                        (arg_parser.DEFAULT_FORMAT if option.days == 0 else arg_parser.DEFAULT_FORMAT_DAYS))
