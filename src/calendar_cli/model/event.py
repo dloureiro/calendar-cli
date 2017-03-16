@@ -97,7 +97,7 @@ class Event(CaseClass):
 
         return (
             format_
-            .replace('%I', self.event_id)
+            .replace('%I', self.event_id if not None else "")
             .replace('%Ds', self.start_time.to_long_summary())
             .replace('%De', self.end_time.to_long_summary())
             .replace('%D', self.start_time.to_long_summary())
@@ -110,8 +110,9 @@ class Event(CaseClass):
         )
 
     def to_dict(self):
-        r = {'id': self.event_id, 'summary': self.summary, 'start': self.start_time.to_dict(), 'end': self.end_time.to_dict()}
-
+        r = {'summary': self.summary, 'start': self.start_time.to_dict(), 'end': self.end_time.to_dict()}
+        if self.event_id is not None:
+            r.update({'id': self.event_id})
         d = {}
         omap(lambda x: d.update({'displayName': x}), self.creator_name)
         omap(lambda x: d.update({'email': x}), self.creator_email)

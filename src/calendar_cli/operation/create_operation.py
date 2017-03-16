@@ -25,4 +25,5 @@ class CreateOperation(Operation):
     def run(self):
         service = GoogleCalendarService(self.credential_path)
         event_id = service.insert_event(self.calendar_id, self.event)
+        self.event.event_id = event_id
         print_safe(MSG_EVENT_CREATED % {'event': self.event.to_long_summary(), 'event_id': event_id})

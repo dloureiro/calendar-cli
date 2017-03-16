@@ -114,10 +114,6 @@ class Setting(CaseClass):
 
         # decode all args as utf-8
         option, args = arg_parser.parser.parse_args([to_unicode(a, errors='ignore') for a in argv[1:]])
-        print("args : ")
-        print(args)
-        print("options :")
-        print(option)
         try:
             if not args:
                 # summary
@@ -159,7 +155,7 @@ class Setting(CaseClass):
 
                 start, end = self._parse_time_range(start_date_date, end_date_date, start_date_time, end_date_time, self.now)
 
-                ev = Event(start, end, summary, location=option.location)
+                ev = Event(None,start, end, summary, location=option.location)
                 operation = CreateOperation(option.calendar, ev, option.credential)
             elif args[0] == 'delete' and len(args) >= 2:
                 # delete
