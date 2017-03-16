@@ -114,7 +114,8 @@ class Setting(CaseClass):
 
         # decode all args as utf-8
         option, args = arg_parser.parser.parse_args([to_unicode(a, errors='ignore') for a in argv[1:]])
-
+        print("args : ")
+        print("args")
         try:
             if not args:
                 # summary
