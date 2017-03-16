@@ -12,7 +12,7 @@ USAGE = """
   %prog setup <secret_path> [--read-only --no-browser --credential <credential_path>]
                         Generate a credentials file from the client secret.
 
-  %prog create [--date <YYYYMMDD> --start <HHMM> --end <HHMM> --location <location>
+  %prog create [--start "<YYYYMMDD HHMM>" --end "<YYYYMMDD HHMM>" --location <location>
                 --credential <credential_path>] <summary>
                         Create an event onto the calendar.
   %prog delete <event_id>
@@ -31,10 +31,10 @@ def _get_parser():
         '--calendar', dest='calendar', default='primary', type='string', metavar='CALENDAR',
         help='set calendar id to CALENDAR (default:primary)'
     )
-    p.add_option(
-        '--date', dest='date', default=None, type='string', metavar='YYYYMMDD',
-        help='set date to YYYYMMDD in the summary/create command (default:today)'
-    )
+    # p.add_option(
+    #     '--date', dest='date', default=None, type='string', metavar='YYYYMMDD',
+    #     help='set date to YYYYMMDD in the summary/create command (default:today)'
+    # )
     p.add_option(
         '--days', dest='days', default=0, type=int, metavar='N',
         help=' '.join([
@@ -55,12 +55,12 @@ def _get_parser():
         help='create a credential file without launching a web browser in the setup command (default: False)'
     )
     p.add_option(
-        '--start', dest='start_time', default=None, type='string', metavar='HHMM',
-        help='set start time in the create command'
+        '--start', dest='start_date', default=None, type='string', metavar='YYYYMMDD HHMM',
+        help='set start date in the create command'
     )
     p.add_option(
-        '--end', dest='end_time', default=None, type='string', metavar='HHMM',
-        help='set end time in the create command'
+        '--end', dest='end_date', default=None, type='string', metavar='YYYYMMDD HHMM',
+        help='set end date in the create command'
     )
     p.add_option(
         '--location', dest='location', default=None, type='string', metavar='LOCATION',

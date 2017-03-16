@@ -75,36 +75,38 @@ class Setting(CaseClass):
             raise ValueError('Failed to parse --start or --end option: %s' % s)
 
     @classmethod
-    def _parse_time_range(cls, date, start_time, end_time, now):
-        parsed_date = cls._parse_date(date, now)
-        parsed_start = cls._parse_time(start_time)
-        parsed_end = cls._parse_time(end_time)
+    def _parse_time_range(cls, start_date, end_date,start_time, end_time, now):
+        parsed_end_date = cls._parse_date(end_date,now)
+        parsed_start_date = cls._parse_date(start_date, now)
+        parsed_start_time = cls._parse_time(start_time)
+        parsed_end_time = cls._parse_time(end_time)
 
-        if parsed_date is None:
-            if parsed_start is None:
-                raise ValueError('Failed to create event: --date or --start options are missing.')
+        if parsed_start_date is None:
+            if parsed_start_time is None:
+                raise ValueError('Failed to create event: --start options is not well formatted.')
             # set date today or tomorrow
             dt = now.date()
-            if (parsed_start.hour, parsed_start.minute) < (now.hour, now.minute):
+            if (parsed_start_time.hour, parsed_start_time.minute) < (now.hour, now.minute):
                 dt += timedelta(days=1)
         else:
-            if parsed_start is None:
-                if parsed_end is not None:
-                    raise ValueError('Failed to create event: --date option with --end is set but --start is missing.')
+            if parsed_start_time is None:
+                if parsed_end_time is not None:
+                    raise ValueError('Failed to create event: end TIME is set but start time is missing.')
                 # all-day event
-                t = get_localzone().localize(datetime(parsed_date.year, parsed_date.month, parsed_date.day))
-                return EventTime(False, t), EventTime(False, t)
-            dt = parsed_date
+                t_start = get_localzone().localize(datetime(parsed_start_date.year, parsed_start_date.month, parsed_start_date.day))
+                t_end = get_localzone().localize(datetime(parsed_end_date.year, parsed_end_date.month, parsed_end_date.day))
+                return EventTime(False, t_start), EventTime(False, t_end)
+            dt = parsed_start_date
 
         # set start and end event time
-        start = get_localzone().localize(datetime.combine(dt, parsed_start))
+        start = get_localzone().localize(datetime.combine(dt, parsed_start_time))
 
-        if parsed_end is None:
+        if parsed_end_time is None:
             end = start + cls.DEFAULT_CREATE_DURATION
         else:
-            end = get_localzone().localize(datetime.combine(dt, parsed_end))
-            if parsed_start > parsed_end:
-                end += timedelta(days=1)
+            end = get_localzone().localize(datetime.combine(parsed_end_date, parsed_end_time))
+            # if parsed_start_time > parsed_end_time:
+            #     end += timedelta(days=1)
         return EventTime(True, start), EventTime(True, end)
 
     def parse_args(self, argv):
@@ -116,7 +118,10 @@ class Setting(CaseClass):
         try:
             if not args:
                 # summary
-                dt = oget(self._parse_date(option.date, self.now), self.now.date())
+                date_time = option.start_date.split(" ")
+                input_date = date_time[0]
+                input_time = date_time[1]
+                dt = oget(self._parse_date(input_date, self.now), self.now.date())
                 start_time = get_localzone().localize(datetime(dt.year, dt.month, dt.day))
 
                 fmt = (option.format or
@@ -141,7 +146,8 @@ class Setting(CaseClass):
             elif args[0] == 'create' and len(args) >= 2:
                 # create
                 summary = ' '.join(args[1:])
-                start, end = self._parse_time_range(option.date, option.start_time, option.end_time, self.now)
+                start, end = self._parse_time_range(option.start_date, option.end_date, option.start_time, option.end_time, self.now)
+
                 ev = Event(start, end, summary, location=option.location)
                 operation = CreateOperation(option.calendar, ev, option.credential)
             elif args[0] == 'delete' and len(args) >= 2:
