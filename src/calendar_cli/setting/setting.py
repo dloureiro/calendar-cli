@@ -122,7 +122,8 @@ class Setting(CaseClass):
                 input_date = date_time[0]
                 input_time = date_time[1]
                 dt = oget(self._parse_date(input_date, self.now), self.now.date())
-                start_time = get_localzone().localize(datetime(dt.year, dt.month, dt.day))
+                ti = self._parse_time(input_time)
+                start_time = get_localzone().localize(datetime(dt.year, dt.month, dt.day, ti.hour, ti.minutes))
 
                 fmt = (option.format or
                        (arg_parser.DEFAULT_FORMAT if option.days == 0 else arg_parser.DEFAULT_FORMAT_DAYS))
@@ -146,7 +147,14 @@ class Setting(CaseClass):
             elif args[0] == 'create' and len(args) >= 2:
                 # create
                 summary = ' '.join(args[1:])
-                start, end = self._parse_time_range(option.start_date, option.end_date, option.start_time, option.end_time, self.now)
+                st_date_time = option.start_date.split(" ")
+                start_date_date = st_date_time[0]
+                start_date_time = st_date_time[1]
+                ed_date_time = option.end_date.split(" ")
+                end_date_date = ed_date_time[0]
+                end_date_time = ed_date_time[1]
+
+                start, end = self._parse_time_range(start_date_date, end_date_date, start_date_time, end_date_time, self.now)
 
                 ev = Event(start, end, summary, location=option.location)
                 operation = CreateOperation(option.calendar, ev, option.credential)
