@@ -105,8 +105,8 @@ class Event(CaseClass):
             .replace('%Te', self.end_time.to_short_summary() if self.end_time.has_time else "00:00")
             .replace('%T', self.str_time_range())
             .replace('%S', self.summary)
-            .replace('%C', oget(omap(lambda s: ' (%s)' % s, self.str_creator()), ''))
-            .replace('%L', oget(omap(lambda s: ' @%s' % s, self.location), ''))
+            .replace('%C', oget(omap(lambda s: '(%s)' % s, self.str_creator()), ''))
+            .replace('%L', oget(omap(lambda s: '@%s' % s, self.location), ''))
         )
 
     def to_dict(self):
